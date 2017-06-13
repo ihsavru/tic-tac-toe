@@ -1,0 +1,13 @@
+.container{
+	width: 306px; 
+	border: 1px solid #000; 
+	white-space: no-wrap;
+}
+
+.container>div{
+	 width:100px; 
+	 border:1px solid #000; 
+	 height: 100px; 
+	 float: left; 
+	 display: inline-block;
+}
