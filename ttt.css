@@ -1,0 +1,12 @@
+body{
+	background-color: #999999;
+}
+
+div{
+    width: 330px;
+}
+
+canvas{
+	background-color: white;
+	padding: 0px;
+}
