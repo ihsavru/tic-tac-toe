@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="tictactoe.css"> 
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type = "text/javascript">
+	var grid = [
+		[0, 0, 0],
+		[0, 0, 0],
+		[0, 0, 0]
+	];
+
+	var player = 'O';
+
+	var turn = 0;
+
+
+	function gameRunTimeCheck(){
+
+	    for (var i = 0; i < 3; i++) {
+	        if(grid[i][0]==grid[i][1] && grid[i][0]==grid[i][2] && grid[i][0]!=0)
+	        return grid[i][0];
+	    	if(grid[0][i]==grid[1][i] && grid[0][i]==grid[2][i] && grid[0][i]!=0)
+	        return grid[0][i];
+
+	    }
+	 	console.log(turn)
+	    if(grid[0][0]==grid[1][1] && grid[0][0]==grid[2][2] && grid[0][0]!=0)
+	    	return grid[0][0];
+	    if(grid[0][2]==grid[1][1] && grid[0][2]==grid[2][0] && grid[0][2]!=0)
+	    	return grid[0][0];
+	    else if(turn ==9)
+	        return "tie";
+	    else 
+	        return false;
+
+	}
+
+
+	function reloadGame(){
+		player='O';
+		turn=0;
+		$('.container > div').each(function(){
+			$(this).text('');
+		});
+		grid=[
+			[0, 0, 0],
+			[0, 0, 0],
+			[0, 0, 0]
+	    ];
+	}
+
+	$(function(){
+		
+		$('.container > div').click(function(){
+			turn++;
+			
+			var X = parseInt($(this).attr('x'));
+			var Y = parseInt($(this).attr('y'));		
+			grid[X][Y] = player;
+			$(this).text(player);
+			if(player === 'O')
+				player = 'X';
+			else
+				player = 'O';
+			var winner = gameRunTimeCheck();
+			if(winner === 'O')
+			    alert('Player A wins');
+			else if ( winner === 'X')
+			    alert('Player B wins');
+			else if( winner === 'tie'){
+			    alert('It\'s a tie!');
+			}
+			else 
+			    return false;
+			
+			if(confirm('Do you want to play again?'))
+			        reloadGame();
+				
+			
+		});
+	})
+    </script>
+</head>
+
+<body>
+		<div class="container">
+			<div x = '0' y = '0'></div>
+			<div x = '0' y = '1'></div>
+			<div x = '0' y = '2'></div>
+			<div x = '1' y = '0'></div>
+			<div x = '1' y = '1'></div>
+			<div x = '1' y = '2'></div>
+			<div x = '2' y = '0'></div>
+			<div x = '2' y = '1'></div>
+			<div x = '2' y = '2'></div>
+		</div>
+</body>
+
+</html>

@@ -1,12 +1,16 @@
-body{
-	background-color: #999999;
-}
 
 div{
     width: 330px;
 }
 
 canvas{
-	background-color: white;
+	background-color: rgb(237, 237, 237);
 	padding: 0px;
+}
+.container{
+	position: absolute;
+    left: 50%;
+    top:50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }

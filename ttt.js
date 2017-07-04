@@ -34,58 +34,122 @@ function checkWinner(){
 	else
 		return false;
 }
+function drawX(a){
+    var c2 = document.getElementById(a);
+    var ctx2 = c2.getContext('2d');
+    ctx2.beginPath();
+    ctx2.moveTo(30, 30);
+    ctx2.lineTo(70, 70);
+    ctx2.stroke();
+    ctx2.moveTo(70, 30);
+    ctx2.lineTo(30, 70);
+    ctx2.lineWidth=5;
+    ctx2.strokeStyle='#06e0e0';
+    ctx2.stroke();
+    board[a] = 2;
+    turn++;
+}
+function ai(){
+    for(var i=0;i<9;i+=3){
+        if( board[i] === board[i+1] || board[i+1] === board[i+2] || board[i] === board[i+2]){
+            if(board[i] === 0){
+                drawX(i); 
+                return false;
+            }
+            else if(board[i+1] === 0){
+                drawX(i+1);
+                return false;
+            }
+            else if(board[i+2] === 0){
+                drawX(i+2);
+                return false;
+            }
+        }
+    }
+    for(var i=0;i<3;i++){
+        if( board[i] === board[i+3] || board[i+3] === board[i+6] || board[i] === board[i+6]){
+            if(board[i] === 0){
+                drawX(i);
+                return false;
+            }
+            else if(board[i+3] === 0){
+                drawX(i+3);
+                return false;
+            }
+            else if(board[i+6] === 0){
+                drawX(i+6);
+                return false;
+            }
+        }
+    }
+    if( board[0] === board[4] || board[4] === board[8] ||  board[0] === board[8]){
+        if(board[0] === 0){
+            drawX(0);
+            return false;
+        }
+        else if(board[4] === 0){
+            drawX(4);
+            return false;
+        }
+        else if(board[8] === 0){
+            drawX(8);
+            return false;
+        }
+    }
+    if( board[2] === board[4] || board[4] === board[6] ||  board[2] === board[6]){
+        if(board[2] === 0){
+            drawX(2);
+            return false;
+        }
+        else if(board[4] === 0){
+            drawX(4);
+            return false;
+        }
+        else if(board[6] === 0){
+            drawX(6);
+            return false;
+        }
+    }
+    var a = Math.floor(Math.random()*9);
+    if(board[a] !== 0)
+        ai();
+    else{
+        drawX(a);
+    }
+}
+
+function printWinner(result){
+    if(result === 1)
+            alert('Player 1 wins');
+        else if( result === 2)
+            alert('Computer wins');
+        else if( result === 0)
+            alert('It is a tie!');
+        else
+            return false;
+        if(confirm('Do you want to play again?')){
+            reloadGame();
+        }
+}
 
 $(function(){
 	$('.container > canvas').click(function(){
-        if ( player === 1 ){
-            var x = parseInt($(this).attr('id'));
-            if(board[x]===0){
-                board[x] = player;
-	            player = 2;
-	            turn++;
-	            var c = document.getElementById(x);
-	            var ctx = c.getContext('2d');
-	            ctx.beginPath();
-	            ctx.arc(50, 50, 20 ,0, 2*Math.PI, false);
-	            ctx.lineWidth=5;
-	            ctx.strokeStyle='#e0065a';
-	            ctx.stroke();
-            }
-            
-
-        }
-        else if ( player === 2 ){
-            var x2 = parseInt($(this).attr('id'));
-            if(board[x2]===0){
-            	board[x2] = player;
-	            player = 1;
-	            turn++;
-	            var c2 = document.getElementById(x2);
-	            var ctx2 = c2.getContext('2d');
-	            ctx2.beginPath();
-	            ctx2.moveTo(30, 30);
-	            ctx2.lineTo(70, 70);
-	            ctx2.stroke();
-	            ctx2.moveTo(70, 30);
-	            ctx2.lineTo(30, 70);
-	            ctx2.lineWidth=5;
-	            ctx2.strokeStyle='#06e0e0';
-	            ctx2.stroke();
-            }
-           
-        }
-
-        var result = checkWinner();
-        if(result === 1)
-        	alert('Player 1 wins');
-        else if( result === 2)
-        	alert('Player 2 wins');
-        else if( result === 0)
-        	alert('It is a tie!');
-        else
-        	return false;
-        if(confirm('Do you want to play again?')){
-        	reloadGame();
-        }
+        var x = parseInt($(this).attr('id'));
+        if(board[x]===0){
+            board[x] = 1;
+            turn++;
+            var c = document.getElementById(x);
+            var ctx = c.getContext('2d');
+            ctx.beginPath();
+            ctx.arc(50, 50, 20 ,0, 2*Math.PI, false);
+            ctx.lineWidth=5;
+            ctx.strokeStyle='#e0065a';
+            ctx.stroke();
+            var result = checkWinner();
+            printWinner(result);
+            ai();
+            result = checkWinner();
+            printWinner(result);
+        }   
 	})
 })
