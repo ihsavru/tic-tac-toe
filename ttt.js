@@ -51,7 +51,7 @@ function drawX(a){
 }
 function ai(){
     for(var i=0;i<9;i+=3){
-        if( board[i] === board[i+1] || board[i+1] === board[i+2] || board[i] === board[i+2]){
+        if( (board[i] === board[i+1] && board[i] != 0) || (board[i+1] === board[i+2] && board[i+1] != 0) || (board[i] === board[i+2] && board[i] != 0) ){
             if(board[i] === 0){
                 drawX(i); 
                 return false;
@@ -67,7 +67,7 @@ function ai(){
         }
     }
     for(var i=0;i<3;i++){
-        if( board[i] === board[i+3] || board[i+3] === board[i+6] || board[i] === board[i+6]){
+        if( (board[i] === board[i+3] && board[i] != 0)|| (board[i+3] === board[i+6] && board[i+3] != 0)|| (board[i] === board[i+6] && board[i] != 0)){
             if(board[i] === 0){
                 drawX(i);
                 return false;
@@ -82,7 +82,7 @@ function ai(){
             }
         }
     }
-    if( board[0] === board[4] || board[4] === board[8] ||  board[0] === board[8]){
+    if( (board[0] === board[4] && board[0] != 0) || (board[4] === board[8] && board[4] != 0) || ( board[0] === board[8] && board[0] != 0)){
         if(board[0] === 0){
             drawX(0);
             return false;
@@ -96,7 +96,7 @@ function ai(){
             return false;
         }
     }
-    if( board[2] === board[4] || board[4] === board[6] ||  board[2] === board[6]){
+    if( (board[2] === board[4] && board[2] !== 0) || (board[4] === board[6] && board[4] !== 0)||  (board[2] === board[6] && board[2] !== 0)){
         if(board[2] === 0){
             drawX(2);
             return false;
@@ -110,26 +110,12 @@ function ai(){
             return false;
         }
     }
-    var a = Math.floor(Math.random()*9);
-    if(board[a] !== 0)
-        ai();
-    else{
-        drawX(a);
-    }
-}
-
-function printWinner(result){
-    if(result === 1)
-            alert('Player 1 wins');
-        else if( result === 2)
-            alert('Computer wins');
-        else if( result === 0)
-            alert('It is a tie!');
-        else
-            return false;
-        if(confirm('Do you want to play again?')){
-            reloadGame();
+    for(var i=0;i<9;i++){
+        if(board[i] === 0){
+            drawX(i);
+            break;
         }
+    }
 }
 
 $(function(){
@@ -146,10 +132,22 @@ $(function(){
             ctx.strokeStyle='#e0065a';
             ctx.stroke();
             var result = checkWinner();
-            printWinner(result);
-            ai();
-            result = checkWinner();
-            printWinner(result);
+            if(!result && turn<9){
+                ai();
+                console.log(board);
+                result = checkWinner();
+            }
+            else{
+                if(result === 1)
+                    alert('You won!');
+                else if( result === 2)
+                    alert('Computer won!');
+                else if( result === 0)
+                    alert('It is a tie!');
+                if(confirm('Do you want to play again?')){
+                    reloadGame();
+                }       
+            }
         }   
 	})
 })
